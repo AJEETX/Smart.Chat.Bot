@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -19,9 +16,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
     {
         protected readonly ILogger Logger;
 
-        // Dependency injection uses this constructor to instantiate MainDialog
-        public MainDialog(BookingDialog bookingDialog, ILogger<MainDialog> logger)
-            : base(nameof(MainDialog))
+        public MainDialog(BookingDialog bookingDialog, ILogger<MainDialog> logger) : base(nameof(MainDialog))
         {
             Logger = logger;
 
@@ -34,7 +29,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 FinalStepAsync,
             }));
 
-            // The initial child Dialog to run.
             InitialDialogId = nameof(WaterfallDialog);
         }
 
@@ -73,11 +67,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     return await stepContext.BeginDialogAsync(nameof(BookingDialog), new BookingDetails(), cancellationToken);
 
                 case "GetWeather":
-                    // We haven't implemented the GetWeatherDialog so we just display a TODO message.
-                    var getWeatherMessageText = "TODO: get weather flow here";
-                    var getWeatherMessage = MessageFactory.Text(getWeatherMessageText, getWeatherMessageText, InputHints.IgnoringInput);
-                    await stepContext.Context.SendActivityAsync(getWeatherMessage, cancellationToken);
-                    break;
+                    return await stepContext.BeginDialogAsync(nameof(WeatherDialog), new BookingDetails(), cancellationToken);
 
                 default:
                     // Catch all for unhandled intents

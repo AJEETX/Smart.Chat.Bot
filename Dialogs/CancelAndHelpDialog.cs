@@ -49,6 +49,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                         var cancelMessage = MessageFactory.Text(CancelMsgText, CancelMsgText, InputHints.IgnoringInput);
                         await innerDc.Context.SendActivityAsync(cancelMessage, cancellationToken);
                         return await innerDc.CancelAllDialogsAsync(cancellationToken);
+
+                    case "weather":
+                        return await innerDc.BeginDialogAsync(nameof(WeatherDialog), new BookingDetails(), cancellationToken);
                 }
             }
 
